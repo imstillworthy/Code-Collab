@@ -1,5 +1,5 @@
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Projects from './components/Projects';
 import Main from './components/Main';
 import Info from './components/Info';
@@ -11,20 +11,20 @@ function App() {
     <Router>
       <div className="App">
         <Switch>
-         <Route path="/info">
-            <Info/>
-         </Route>
-         <Route path="/editor">
-           <Editor />
-         </Route>
-         <Route path="/projects">
-           <Projects/>
+          <Route path="/info">
+            <Info />
+          </Route>
+          <Route path="/editor">
+            <Editor />
+          </Route>
+          <Route path="/projects">
+            <Projects />
           </Route>
           <Route path="/">
-            <Main/>
+            <Main />
           </Route>
         </Switch>
-     </div>
+      </div>
     </Router>
 
   );
