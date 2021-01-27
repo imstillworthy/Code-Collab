@@ -6,6 +6,9 @@ import Info from './components/Info';
 import Editor from './components/Editor';
 import './App.css';
 
+const io = require('socket.io-client')
+const ENDPOINT = "http://localhost:5000";
+const socket = io(ENDPOINT);
 function App() {
   return (
     <Router>
@@ -15,7 +18,7 @@ function App() {
             <Info />
           </Route>
           <Route path="/editor">
-            <Editor />
+            <Editor socket={socket} />
           </Route>
           <Route path="/projects">
             <Projects />

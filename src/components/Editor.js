@@ -1,20 +1,63 @@
 
-import React, { useState, useRef } from "react";
-import Editor from "@monaco-editor/react";
+import React, { useState, useRef, useEffect } from "react";
+import { ControlledEditor } from "@monaco-editor/react";
 import { Dropdown, Button, Alert, Badge } from 'react-bootstrap';
 import Nav from "./Navbar";
 import 'bootstrap/dist/css/bootstrap.min.css';
-function Area() {
-  const theme = "dark";
-  const [isEditorReady, setIsEditorReady] = useState("false");
-  const [language, setLanguage] = useState("javascript");
-  const [editorData, setData] = useState()
-  const valueGetter = useRef();
 
+let b=false,a=false
+
+function Area(props) {
+  const socket=props.socket
+  const theme = "dark";
+  const [isEditorReady, setIsEditorReady] = useState(false);
+  const [language, setLanguage] = useState("javascript");
+  const [editorData, setData] = useState('')
+  const valueGetter = useRef();
+  const [message, setMessage] = useState('')
+
+  
+  useEffect(() => {
+    
+    socket.on('initial-language',data=>{
+      setLanguage(data)
+    })
+    socket.on('initial-value',data=>{
+      setData(data)
+    })
+  }, [])
+  
+  socket.on('language-change',data=>{
+    setLanguage(data)
+  })
+  socket.on('value-change',data=>{
+    setData(data)
+  })
+  useEffect(() => {
+    if(b==true)
+    socket.emit('language-change',language)
+    else b=true
+  }, [language])
+
+  useEffect(() => {
+    if(a==true)
+    socket.emit('value-change',message)
+    else a=true
+    // console.log(editorData)
+  }, [message])
 
   function handleEditorDidMount(_valueGetter) {
     setIsEditorReady(true);
     valueGetter.current = _valueGetter;
+  }
+  
+
+  // socket.on('language-change',data=>{
+  //   setLanguage(data)
+  // })
+  const handleEditorChange= (event,value)=>{
+    // console.log(value,'hii')
+    setMessage(value)
   }
 
   function extension(language) {
@@ -51,6 +94,7 @@ function Area() {
     reader.onload = e => setData(e.target.result)
     e.target.style.visibility = "hidden"
   }
+
   return (
     <div>
       <Nav />
@@ -83,12 +127,13 @@ function Area() {
           marginTop: "1rem", marginBottom: "2rem", marginLeft: "auto", marginRight: "auto"
         }} name="file" onChange={e => fileUpload(e)} />
 
-        <Editor
+        <ControlledEditor
           height="75vh"
           theme={theme}
           language={language}
           editorDidMount={handleEditorDidMount}
           value={editorData}
+          onChange={handleEditorChange}
           options={{
             lineNumbers: "on",
             automaticLayout: "true",
