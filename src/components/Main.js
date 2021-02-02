@@ -1,15 +1,31 @@
-import React from "react";
+import React, { useState } from 'react';
+import {Link} from "react-router-dom";
 import Nav from "./Navbar";
-
+import './Main.css';
 
 
 const Main = () => {
+    const [name,setName]=useState('');
+    const [room,setRoom]=useState('');
     return (
         <div>
             <Nav />
-            <h1>Home Page</h1>
+            <div className="joinOuterContainer">
+            <div className="joinInnerContainer">
+                <h1 className="heading">Join</h1>
+                <div>
+                    <input placeholder="Name" className="joinInput" type="text" onChange={(e)=>{setName(e.target.value)}}/>
+                </div>
+                <div>
+                    <input placeholder="Room" className="joinInput mt-20" type="text" onChange={(e)=>{setRoom(e.target.value)}}/>
+                </div>
+                <Link onClick={e=>(!name||!room)?e.preventDefault():null} to={`/editor?name=${name}&room=${room}`}>
+                    <button className="button mt-20" type="submit">Join / Create</button>
+                </Link>
+            </div>
+        </div>
         </div>
     );
 }
 
-export default Main;
+export default Main

@@ -4,45 +4,50 @@ import { ControlledEditor } from "@monaco-editor/react";
 import { Dropdown, Button, Alert, Badge } from 'react-bootstrap';
 import Nav from "./Navbar";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import queryString from 'query-string';
+import { useLocation } from "react-router-dom";
 
-let b=false,a=false
+let b = false, a = false
 
 function Area(props) {
-  const socket=props.socket
+
+  const location = useLocation()
+
+  const socket = props.socket
   const theme = "dark";
   const [isEditorReady, setIsEditorReady] = useState(false);
   const [language, setLanguage] = useState("javascript");
   const [editorData, setData] = useState('')
   const valueGetter = useRef();
   const [message, setMessage] = useState('')
+  const { name, room } = queryString.parse(location.search)
 
-  
   useEffect(() => {
-    
-    socket.on('initial-language',data=>{
+    socket.emit('join-room', { name, room })
+    socket.on('initial-language', data => {
       setLanguage(data)
     })
-    socket.on('initial-value',data=>{
+    socket.on('initial-value', data => {
       setData(data)
     })
   }, [])
-  
-  socket.on('language-change',data=>{
+
+  socket.on('language-change', data => {
     setLanguage(data)
   })
-  socket.on('value-change',data=>{
+  socket.on('value-change', data => {
     setData(data)
   })
   useEffect(() => {
-    if(b==true)
-    socket.emit('language-change',language)
-    else b=true
+    if (b == true)
+      socket.emit('language-change', { language, room })
+    else b = true
   }, [language])
 
   useEffect(() => {
-    if(a==true)
-    socket.emit('value-change',message)
-    else a=true
+    if (a == true)
+      socket.emit('value-change', { message, room })
+    else a = true
     // console.log(editorData)
   }, [message])
 
@@ -50,12 +55,12 @@ function Area(props) {
     setIsEditorReady(true);
     valueGetter.current = _valueGetter;
   }
-  
+
 
   // socket.on('language-change',data=>{
   //   setLanguage(data)
   // })
-  const handleEditorChange= (event,value)=>{
+  const handleEditorChange = (event, value) => {
     // console.log(value,'hii')
     setMessage(value)
   }
@@ -91,7 +96,10 @@ function Area(props) {
     let file = e.target.files
     let reader = new FileReader()
     reader.readAsText(file[0])
-    reader.onload = e => setData(e.target.result)
+    reader.onload = e => {
+      setData(e.target.result)
+      setMessage(e.target.result)
+    }
     e.target.style.visibility = "hidden"
   }
 
