@@ -19,7 +19,7 @@ const Main = () => {
                 <div>
                     <input placeholder="Room" className="joinInput mt-20" type="text" onChange={(e)=>{setRoom(e.target.value)}}/>
                 </div>
-                <Link onClick={e=>(!name||!room)?e.preventDefault():null} to={`/editor?name=${name}&room=${room}`}>
+                <Link onClick={e=>(!name||!room)?e.preventDefault():null} to={`/editor?name=${name.trim()}&room=${room.trim()}`}>
                     <button className="button mt-20" type="submit">Join / Create</button>
                 </Link>
             </div>

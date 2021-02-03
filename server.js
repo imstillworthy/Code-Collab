@@ -31,7 +31,7 @@ io.on("connection", (socket) => {
             }
         }
         socket.join(room)
-        // console.log(rooms)
+        console.log(rooms)
         language = rooms[roomname].language
         value = rooms[roomname].value
         io.to(socket.id).emit('initial-language', language)
@@ -40,18 +40,20 @@ io.on("connection", (socket) => {
 
     socket.on('language-change', (data) => {
         // console.log(data);
-        socket.broadcast.to(roomname).emit('language-change', data.language)
+        socket.broadcast.to(data.room).emit('language-change', data.language)
         language = data.language
-        rooms[roomname].language = language
+        rooms[data.room].language = language
     })
     socket.on('value-change', (data) => {
         // console.log(data)
-        socket.broadcast.to(roomname).emit('value-change', data.message)
+        socket.broadcast.to(data.room).emit('value-change', data.message)
         value = data.message
-        rooms[roomname].value = value
-        // console.log(rooms)
+        rooms[data.room].value = value
+        console.log(rooms)
     })
-    
+    socket.on('disconnect',()=>{
+        console.log('User disconnected',socket.id);
+    })
 });
 
 server.listen(port, () => console.log(`Listening on port ${port}`))
