@@ -1,6 +1,7 @@
 const express = require('express')
 const http = require('http')
 const socketIO = require('socket.io');
+const mongoose=require('mongoose')
 const port = 5000;
 let rooms = {}
 let language
@@ -14,6 +15,9 @@ const io = socketIO(server, {
     },
 });
 let username, roomname
+
+mongoose.connect('mongodb+srv://yash:collab@collab.g1ws0.mongodb.net/roomdata?retryWrites=true&w=majority',
+{useNewUrlParser:true,useUnifiedTopology:true})
 
 io.on("connection", (socket) => {
     // const { id } = socket.client
