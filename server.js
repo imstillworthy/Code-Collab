@@ -1,18 +1,28 @@
 const express = require('express')
 const http = require('http')
 const socketIO = require('socket.io');
+const mongoose=require('mongoose');
 const port = 5000;
 let rooms = {}
 let language
 let value
-const app = express()
+const app = express();
+const dbURI = "mongodb+srv://Abhinav:abhinav@cluster0.fg6uh.mongodb.net/code-collab?retryWrites=true&w=majority";
+mongoose.connect(dbURI,{useNewUrlParser:true,useUnifiedTopology:true})
+    .then(()=>console.log('MongoDB is connected'))
+    .catch((err)=>{console.log(err)});
+
+app.use(express.json());
+require('./models/Rooms');
+require('./models/Users');
+app.use(require('./routes/auth'));
 const server = http.createServer(app)
 // Create a socketIO server
 const io = socketIO(server, {
     cors: {
         origin: "*",
     },
-});
+}); 
 let username, roomname
 
 io.on("connection", (socket) => {
