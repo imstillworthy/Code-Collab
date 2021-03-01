@@ -2,11 +2,13 @@ const express = require('express')
 const http = require('http')
 const socketIO = require('socket.io');
 const mongoose=require('mongoose');
-const port = 5000;
+var port = 5000;
 let rooms = {}
 let language
 let value
 const app = express();
+var cors=require('cors');
+app.use(cors())
 const dbURI = "mongodb+srv://Abhinav:abhinav@cluster0.fg6uh.mongodb.net/code-collab?retryWrites=true&w=majority";
 mongoose.connect(dbURI,{useNewUrlParser:true,useUnifiedTopology:true})
     .then(()=>console.log('MongoDB is connected'))
@@ -65,5 +67,4 @@ io.on("connection", (socket) => {
         console.log('User disconnected',socket.id);
     })
 });
-
 server.listen(port, () => console.log(`Listening on port ${port}`))

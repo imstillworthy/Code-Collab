@@ -8,12 +8,11 @@ const {JWT_SECRET}=require('../config/key')
 const validateRegisterInput = require("../validation/register");
 const validateLoginInput = require("../validation/login");
 router.post('/signup', (req, res) => {
-    const { errors, isValid } = validateRegisterInput(req.body);
-
-     if (!isValid) {
-        return res.status(400).json(errors);
-    }
+    console.log('request done')
     const {name,email,password}=req.body;
+     if(!email || !password || !name) {
+        return res.status(422).json({error: "please add all the fields"})
+    }
     User.findOne({email: email})
     .then((savedUser) => {
         if(savedUser) {

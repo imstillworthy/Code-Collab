@@ -1,10 +1,20 @@
-import React, { useState } from 'react';
-import {Link} from "react-router-dom";
+import React, { useState,useEffect } from 'react';
+import {Link,useHistory} from "react-router-dom";
 import Nav from "./Navbar";
 import './Main.css';
 
 
 const Main = () => {
+    const history=useHistory()
+    useEffect(() => {
+        const user=JSON.parse(localStorage.getItem("user"))
+        console.log(user)
+        if(!user)
+        {
+            history.push('/login');
+        }
+    }, [])
+
     const [name,setName]=useState('');
     const [room,setRoom]=useState('');
     return (
