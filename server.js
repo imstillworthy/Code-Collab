@@ -16,8 +16,10 @@ const io = socketIO(server, {
 });
 let username, roomname
 
-mongoose.connect('mongodb+srv://yash:collab@collab.g1ws0.mongodb.net/roomdata?retryWrites=true&w=majority',
-{useNewUrlParser:true,useUnifiedTopology:true})
+const dbURI = "mongodb+srv://Abhinav:abhinav@cluster0.fg6uh.mongodb.net/code-collab?retryWrites=true&w=majority";
+mongoose.connect(dbURI,{useNewUrlParser:true,useUnifiedTopology:true})
+    .then(()=>console.log('MongoDB is connected'))
+    .catch((err)=>{console.log(err)});
 
 io.on("connection", (socket) => {
     // const { id } = socket.client
