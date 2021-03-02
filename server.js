@@ -62,4 +62,13 @@ io.on("connection", (socket) => {
     })
 });
 
-server.listen(port, () => console.log(`Listening on port ${port}`))
+
+if(process.env.NODE_ENV=="production"){
+    app.use(express.static('Client/build'))
+    const path = require('path')
+    app.get("*",(req,res)=>{
+        res.sendFile(path.resolve(__dirname,'Client','build','index.html'))
+    })
+}
+
+server.listen(process.env.PORT || port, () => console.log(`Listening on port ${port}`))
