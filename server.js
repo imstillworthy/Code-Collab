@@ -7,6 +7,12 @@ let rooms = {}
 let language
 let value
 const app = express()
+app.use(express.json());
+var cors=require('cors');
+app.use(cors())
+require('./models/Rooms');
+require('./models/Users');
+app.use(require('./routes/auth'));
 const server = http.createServer(app)
 // Create a socketIO server
 const io = socketIO(server, {
