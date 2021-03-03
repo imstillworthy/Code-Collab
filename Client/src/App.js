@@ -9,7 +9,12 @@ import Register from './components/Register';
 import './App.css';
 
 const io = require('socket.io-client')
-const ENDPOINT = "http://localhost:5000";
+var ENDPOINT = "http://localhost:5000";
+
+if(process.env.NODE_ENV==="production"){
+  ENDPOINT = `https://code-collaborator.herokuapp.com`
+}
+
 const socket = io(ENDPOINT);
 function App() {
   return (
