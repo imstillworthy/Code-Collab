@@ -20,7 +20,7 @@ const io = socketIO(server, {
         origin: "*",
     },
 });
-let username, roomname
+let roomname
 
 const dbURI = "mongodb+srv://Abhinav:abhinav@cluster0.fg6uh.mongodb.net/code-collab?retryWrites=true&w=majority";
 mongoose.connect(dbURI,{useNewUrlParser:true,useUnifiedTopology:true})
@@ -31,9 +31,8 @@ io.on("connection", (socket) => {
     // const { id } = socket.client
     console.log(`User connected`, socket.id)
 
-    socket.on('join-room', ({ name, room }) => {
-        console.log(name, room);
-        username = name
+    socket.on('join-room', ({room}) => {
+        console.log(room);
         roomname = room
         const present = room in rooms
         if (!present) {

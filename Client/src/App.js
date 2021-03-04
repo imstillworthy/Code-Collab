@@ -1,6 +1,5 @@
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Projects from './components/Projects';
 import Main from './components/Main';
 import Info from './components/Info';
 import Editor from './components/Editor';
@@ -9,7 +8,12 @@ import Register from './components/Register';
 import './App.css';
 
 const io = require('socket.io-client')
-const ENDPOINT = "http://localhost:5000";
+var ENDPOINT = "http://localhost:5000"; 
+
+if(process.env.NODE_ENV==="production"){
+  ENDPOINT = `https://ie-code-collaborator.herokuapp.com`
+}
+
 const socket = io(ENDPOINT);
 function App() {
   return (
@@ -25,11 +29,8 @@ function App() {
           <Route path="/info">
             <Info />
           </Route>
-          <Route path="/editor">
+          <Route path="/editor/:room([A-Za-z]{12})">
             <Editor socket={socket} />
-          </Route>
-          <Route path="/projects">
-            <Projects />
           </Route>
           <Route path="/">
             <Main />
