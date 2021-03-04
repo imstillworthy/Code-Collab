@@ -5,13 +5,14 @@ import { Dropdown, Button, Alert, Badge } from 'react-bootstrap';
 import Nav from "./Navbar";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import queryString from 'query-string';
-import { useLocation } from "react-router-dom";
+import { useParams, useLocation, useHistory } from "react-router-dom";
 
 let b = false, a = false
 
 function Area(props) {
 
   const location = useLocation()
+  const history = useHistory()
 
   const socket = props.socket
   const theme = "dark";
@@ -20,16 +21,40 @@ function Area(props) {
   const [editorData, setData] = useState('')
   const valueGetter = useRef();
   const [message, setMessage] = useState('')
-  const { name, room } = queryString.parse(location.search)
+  let { room } = useParams()
+
+
 
   useEffect(() => {
-    socket.emit('join-room', { name, room })
+    const user = JSON.parse(localStorage.getItem("user"))
+    console.log(user)
+    if (!user) {
+      history.push('/login');
+    }
+
+    socket.emit('join-room', { room })
+
+    console.log(room);
     socket.on('initial-language', data => {
       setLanguage(data)
     })
     socket.on('initial-value', data => {
       setData(data)
     })
+    fetch('/addroom', {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem('jwt')
+      },
+      body: JSON.stringify({
+        room,
+        id:localStorage.getItem('user')._id
+      })
+    }).then(res => res.json())
+      .then(data => {
+      })
+
   }, [])
 
   socket.on('language-change', data => {
@@ -39,13 +64,13 @@ function Area(props) {
     setData(data)
   })
   useEffect(() => {
-    if (b == true)
+    if (b === true)
       socket.emit('language-change', { language, room })
     else b = true
   }, [language])
 
   useEffect(() => {
-    if (a == true)
+    if (a === true)
       socket.emit('value-change', { message, room })
     else a = true
     // console.log(editorData)

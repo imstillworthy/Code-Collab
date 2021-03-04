@@ -1,39 +1,44 @@
-import React, { useState,useEffect } from 'react';
-import {Link,useHistory} from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { Link, useHistory } from "react-router-dom";
 import Nav from "./Navbar";
 import './Main.css';
 
 
 const Main = () => {
-    const history=useHistory()
+    const history = useHistory()
+     const char_list = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    const length = 12
+    const [code, setCode] = useState("")
+    const generateCode = () => {
+        let text = ""
+        for (let i = 0; i < length; i++) {
+            text += char_list.charAt(Math.floor(Math.random() * char_list.length));
+        }
+        setCode(text)
+    }
     useEffect(() => {
-        const user=JSON.parse(localStorage.getItem("user"))
+        const user = JSON.parse(localStorage.getItem("user"))
         console.log(user)
-        if(!user)
-        {
+        if (!user) {
             history.push('/login');
         }
     }, [])
+    useEffect(() => {
+        if (code !== '') {
+            history.push(`/editor/${code}`);
+        }
+    }, [code])
+  
 
-    const [name,setName]=useState('');
-    const [room,setRoom]=useState('');
     return (
         <div>
             <Nav />
             <div className="joinOuterContainer">
-            <div className="joinInnerContainer">
-                <h1 className="heading">Join</h1>
-                <div>
-                    <input placeholder="Name" className="joinInput" type="text" onChange={(e)=>{setName(e.target.value)}}/>
+                <div className="joinInnerContainer">
+                    <h1 className="heading">Join</h1>
+                    <button className="button mt-20" onClick={generateCode}>Join / Create</button>
                 </div>
-                <div>
-                    <input placeholder="Room" className="joinInput mt-20" type="text" onChange={(e)=>{setRoom(e.target.value)}}/>
-                </div>
-                <Link onClick={e=>(!name||!room)?e.preventDefault():null} to={`/editor?name=${name.trim()}&room=${room.trim()}`}>
-                    <button className="button mt-20" type="submit">Join / Create</button>
-                </Link>
             </div>
-        </div>
         </div>
     );
 }

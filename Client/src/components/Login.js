@@ -9,7 +9,11 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import {FormControl, IconButton, Input, InputAdornment, InputLabel } from '@material-ui/core';
 import InputIcon from '@material-ui/icons/Input';
+var ENDPOINT = "http://localhost:5000"; 
 
+if(process.env.NODE_ENV==="production"){
+  ENDPOINT = `https://code-collaborator.herokuapp.com`
+}
 const Login = ()=>{
     const history = useHistory()
     const [password,setPasword] = useState("")
@@ -19,7 +23,7 @@ const Login = ()=>{
     
     const PostData = ()=>{
         
-        fetch("http://localhost:5000/login",{
+        fetch(`${ENDPOINT}/login`,{
             method:"post",
             headers:{
                 "Content-Type":"application/json"
