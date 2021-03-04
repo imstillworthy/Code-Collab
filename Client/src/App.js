@@ -11,7 +11,7 @@ const io = require('socket.io-client')
 var ENDPOINT = "http://localhost:5000"; 
 
 if(process.env.NODE_ENV==="production"){
-  ENDPOINT = `https://code-collaborator.herokuapp.com`
+  ENDPOINT = `https://ie-code-collaborator.herokuapp.com`
 }
 
 const socket = io(ENDPOINT);
