@@ -47,23 +47,30 @@ io.on("connection", (socket) => {
         value = rooms[roomname].value
         io.to(socket.id).emit('initial-language', language)
         io.to(socket.id).emit('initial-value', value)
-    })
+        
+        socket.on('language-change', (data) => {
+            // console.log(data);
+            socket.broadcast.to(data.room).emit('language-change', data.language)
+            language = data.language
+            rooms[data.room].language = language
+        })
 
-    socket.on('language-change', (data) => {
-        // console.log(data);
-        socket.broadcast.to(data.room).emit('language-change', data.language)
-        language = data.language
-        rooms[data.room].language = language
-    })
-    socket.on('value-change', (data) => {
-        // console.log(data)
-        socket.broadcast.to(data.room).emit('value-change', data.message)
-        value = data.message
-        rooms[data.room].value = value
-        console.log(rooms)
-    })
-    socket.on('disconnect',()=>{
-        console.log('User disconnected',socket.id);
+        socket.on('value-change', (data) => {
+            // console.log(data)
+            socket.broadcast.to(data.room).emit('value-change', data.message)
+            value = data.message
+            rooms[data.room].value = value
+            console.log(rooms)
+        })
+
+        socket.on('message', (data) => {
+            //send message to the same room
+            io.to(room).emit('create-message', data)
+        });
+
+        socket.on('disconnect',()=>{
+            console.log('User disconnected',socket.id);
+        })
     })
 });
 

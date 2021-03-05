@@ -6,6 +6,8 @@ import Editor from './components/Editor';
 import Login from './components/Login';
 import Register from './components/Register';
 import './App.css';
+import Chatbox from './components/Chatbox';
+import { useState } from 'react';
 
 const io = require('socket.io-client')
 var ENDPOINT = "http://localhost:5000"; 
@@ -16,6 +18,12 @@ if(process.env.NODE_ENV==="production"){
 
 const socket = io(ENDPOINT);
 function App() {
+
+  const [isChatboxOpen, setIsChatboxOpen] = useState(false);
+  const toggleChatbox= () => {
+    setIsChatboxOpen(!isChatboxOpen)
+  }
+
   return (
     <Router>
       <div className="App">
@@ -31,6 +39,7 @@ function App() {
           </Route>
           <Route path="/editor/:room([A-Za-z]{12})">
             <Editor socket={socket} />
+            <Chatbox socket={socket} toggleChatbox={toggleChatbox} isChatboxOpen={isChatboxOpen}/>
           </Route>
           <Route path="/">
             <Main />
