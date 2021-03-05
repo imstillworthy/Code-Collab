@@ -9,6 +9,12 @@ import { useParams, useLocation, useHistory } from "react-router-dom";
 
 let b = false, a = false
 
+var ENDPOINT = "http://localhost:5000"; 
+
+if(process.env.NODE_ENV==="production"){
+  ENDPOINT = `https://ie-code-collaborator.herokuapp.com`
+}
+
 function Area(props) {
 
   const location = useLocation()
@@ -41,20 +47,18 @@ function Area(props) {
     socket.on('initial-value', data => {
       setData(data)
     })
-    fetch('/addroom', {
+    fetch(`${ENDPOINT}/addroom`, {
       method: "put",
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + localStorage.getItem('jwt')
       },
       body: JSON.stringify({
-        room,
-        id:localStorage.getItem('user')._id
+        room
       })
     }).then(res => res.json())
       .then(data => {
       })
-
   }, [])
 
   socket.on('language-change', data => {

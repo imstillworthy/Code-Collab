@@ -17,8 +17,7 @@ const userSchema=new mongoose.Schema(
         },
         rooms:[
             {
-                type:ObjectId,
-                ref:"Room"
+                type:String,
             }
         ]
     }
