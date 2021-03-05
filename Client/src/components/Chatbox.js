@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Button, FormControl, InputGroup } from 'react-bootstrap'
 
 const user = JSON.parse(localStorage.getItem("user"))
@@ -10,6 +10,8 @@ const Chatbox = ({socket, toggleChatbox, isChatboxOpen}) => {
 
     const [message, setMessage] = useState("")
 
+    const messagesEndRef = useRef(null)
+
     useEffect(() => {
         socket.on("create-message", data => {
             setLoaded(false)
@@ -20,15 +22,28 @@ const Chatbox = ({socket, toggleChatbox, isChatboxOpen}) => {
             })
             setMessages(temp_messages);
             setLoaded(true)
+            scrollToBottom();
         })
     }, [])
 
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    }
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+          handleSend();
+        }
+    }
+
     const handleSend = () => {
-        socket.emit('message', {
-            user: user.name,
-            message: message
-        });
-        setMessage("")
+        if(message!=="") {
+            socket.emit('message', {
+                user: user.name,
+                message: message
+            });
+            setMessage("")
+        }   
     }
 
     return (
@@ -48,6 +63,7 @@ const Chatbox = ({socket, toggleChatbox, isChatboxOpen}) => {
                                         </div>
                                     )
                                 })}
+                                <div ref={messagesEndRef} />
                             </div>
                         :
                         <div></div>
@@ -60,6 +76,7 @@ const Chatbox = ({socket, toggleChatbox, isChatboxOpen}) => {
                             placeholder="Send a message to everyone"
                             value={message} 
                             onChange={(e)=>setMessage(e.target.value)}
+                            onKeyDown={handleKeyDown}
                         />
                         <InputGroup.Append>
                             <Button onClick={handleSend} variant="dark">Send</Button>   
