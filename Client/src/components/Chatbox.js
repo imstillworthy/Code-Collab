@@ -6,12 +6,7 @@ const user = JSON.parse(localStorage.getItem("user"))
 const Chatbox = ({socket, toggleChatbox, isChatboxOpen}) => {
 
     const [loaded, setLoaded] = useState(true)
-    const [messages, setMessages] = useState([
-        {
-            user: "omanshu",
-            message: "message 1"
-        }
-    ])
+    const [messages, setMessages] = useState([])
 
     const [message, setMessage] = useState("")
 
