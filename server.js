@@ -10,9 +10,9 @@ const app = express()
 app.use(express.json());
 var cors=require('cors');
 app.use(cors())
-require('./models/Rooms');
 require('./models/Users');
 app.use(require('./routes/auth'));
+app.use(require('./routes/userRooms'))
 const server = http.createServer(app)
 // Create a socketIO server
 const io = socketIO(server, {
