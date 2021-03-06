@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react'
+import { Navbar, Nav } from "react-bootstrap";
 import { Link, useHistory } from 'react-router-dom'
 import { Card, Container, Row } from 'react-bootstrap'
 import Paper from '@material-ui/core/Paper';
@@ -48,7 +49,18 @@ const Login = () => {
     }
 
     return (
+        
         <Container>
+            <Navbar id="Navbar" className="navbar_main_container" bg="primary" variant="dark" expand="lg">
+            <Navbar.Brand className="navLinks navBrand" href="/"><h1>CodeCollab </h1> </Navbar.Brand>
+            <Navbar.Toggle id="navbar_toggle" aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="ml-auto">
+                    <Link to="/signup" className="nav-link" > Sign Up</Link>
+                    <Link to="/signin" className="nav-link" > Sign In</Link>
+                </Nav>
+            </Navbar.Collapse>
+            </Navbar>
             <Row className="justify-content-md-center">
                 <div className="col-12 col-md-6 card-login">
                     <Paper elevation={3} >
