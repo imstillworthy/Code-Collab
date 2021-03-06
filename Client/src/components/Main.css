@@ -1,13 +1,20 @@
 .joinOuterContainer {
-  display: flex;
   justify-content: center;
   text-align: center;
-  height: 100vh;
+  height: 100%;
   align-items: center;
   background-color: #1a1a1d;
 }
 .joinInnerContainer {
   width: 20%;
+  text-align:center;
+  margin: auto;
+  margin-bottom: 5%;
+}
+.myrooms{
+  padding:2%;
+  margin:5%;
+  margin-bottom:10%;
 }
 .joinInput {
   padding: 15px 20px;

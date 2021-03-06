@@ -129,7 +129,6 @@ function Area(props) {
       setData(e.target.result)
       setMessage(e.target.result)
     }
-    e.target.style.visibility = "hidden"
   }
 
   return (

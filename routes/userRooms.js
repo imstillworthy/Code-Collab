@@ -18,4 +18,11 @@ router.put('/addroom',requireLogin,(req,res)=>{
     })
 })
 
+router.get('/getrooms',requireLogin,(req,res)=>{
+    res.status(200).json({
+        rooms:req.user.rooms
+    })
+})
+
+
 module.exports=router
