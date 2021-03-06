@@ -47,6 +47,11 @@
   border-radius: 5px;
 }
 
+.chat_message_window {
+  height: 65vh;
+  overflow-y: scroll;
+}
+
 .chat_window .input-group {
   width: 25vw;
 }
