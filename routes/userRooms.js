@@ -7,7 +7,7 @@ const requireLogin = require('../middleware/requireLogin')
 router.put('/addroom',requireLogin,(req,res)=>{
     console.log(req.body);
     User.findByIdAndUpdate(req.user._id,{
-        $push:{rooms:req.body.room}
+        $addToSet:{rooms:req.body.room}
     },(err,docs)=>{
         if(err){
             console.log(err);
