@@ -23,6 +23,7 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.14",
+    "react-share": "^4.4.0",
     "socket.io": "^3.1.0"
   }
 }

@@ -1,11 +1,13 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { ControlledEditor } from "@monaco-editor/react";
-import { Dropdown, Button, Alert, Badge } from 'react-bootstrap';
+import { Dropdown, Button, Alert, Badge, Container } from 'react-bootstrap';
 import Nav from "./Navbar";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import queryString from 'query-string';
 import { useParams, useLocation, useHistory } from "react-router-dom";
+import { FacebookShareButton,WhatsappShareButton,LinkedinShareButton } from "react-share";
+import { FacebookIcon,WhatsappIcon,LinkedinIcon} from "react-share";
 
 let b = false, a = false
 
@@ -16,10 +18,10 @@ if(process.env.NODE_ENV==="production"){
 }
 
 function Area(props) {
-
+  const url=window.location.href
   const location = useLocation()
   const history = useHistory()
-
+  console.log(location+`hello`)
   const socket = props.socket
   const theme = "dark";
   const [isEditorReady, setIsEditorReady] = useState(false);
@@ -110,6 +112,7 @@ function Area(props) {
         return 'txt'
     }
   }
+  
 
   function handleDownload() {
     const element = document.createElement("a");
@@ -159,6 +162,23 @@ function Area(props) {
 
         <Alert variant='dark' style={{ fontSize: "75%", textAlign: "center" }}>You can either choose to upload a file and
         then work on it or directly start coding in the editor below!</Alert>
+        <Container>
+            <FacebookShareButton
+              url={url}
+            >
+              <FacebookIcon logoFillColour="white" round={true}></FacebookIcon>
+            </FacebookShareButton>
+            <WhatsappShareButton
+              url={url}
+            >
+              <WhatsappIcon logoFillColour="white" round={true}></WhatsappIcon>
+            </WhatsappShareButton>
+            <LinkedinShareButton
+              url={url}
+            >
+              <LinkedinIcon logoFillColour="white" round={true}></LinkedinIcon>
+            </LinkedinShareButton>
+        </Container>
 
         <input button type="file" accept=".py , .cpp , .c , .java , .js, .txt" style={{
           marginTop: "1rem", marginBottom: "2rem", marginLeft: "auto", marginRight: "auto"
@@ -177,7 +197,6 @@ function Area(props) {
           }} />
 
         <Button block variant="info" onClick={handleDownload} style={{ marginTop: "1rem", color: "white" }}>Download File</Button>
-
       </div>
 
     </div>
