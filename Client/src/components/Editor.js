@@ -163,9 +163,9 @@ function Area(props) {
           marginTop: "1rem", marginBottom: "2rem", marginLeft: "auto", marginRight: "auto"
         }} name="file" onChange={e => fileUpload(e)} />
 
-        <ControlledEditor
+        <ControlledEditor 
           height="75vh"
-          theme={theme}
+          theme="dark"
           language={language}
           editorDidMount={handleEditorDidMount}
           value={editorData}

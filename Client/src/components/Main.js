@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from "react-router-dom";
-import {Col,Row,Card} from 'react-bootstrap';
+import { Col, Row, Card } from 'react-bootstrap';
 import Nav from "./Navbar";
 import './Main.css';
 
@@ -48,7 +48,7 @@ const Main = () => {
             history.push(`/editor/${code}`);
         }
     }, [code])
-    
+
     console.log(myrooms)
     return (
         <div>
@@ -58,9 +58,11 @@ const Main = () => {
                     <h1 className="heading">Join</h1>
                     <button className="button mt-20" onClick={generateCode}>Create A New Room</button>
                 </div>
-                <div >
-                    <Row lg={{ span: 3, offset: 1 }} >
-                        {myrooms.map((item,index) => {
+                {
+                    myrooms.length > 0 && (<div>
+                        <h2 className="history">Your Previous Rooms</h2>
+                        <Row lg={{ span: 3, offset: 1 }} >
+                            {myrooms.map((item, index) => {
                                 return (
                                     <Col>
                                         <Card class="myrooms" style={{ width: "100%" }}>
@@ -73,9 +75,11 @@ const Main = () => {
                                         </Card>
                                     </Col>
                                 );
-                        })}
-                    </Row>
-                </div>
+                            })}
+                        </Row>
+                    </div>)
+                }
+
             </div>
         </div>
     );
