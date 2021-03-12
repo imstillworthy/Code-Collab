@@ -7,7 +7,7 @@ const requireLogin = require('../middleware/requireLogin')
 router.put('/addroom',requireLogin,(req,res)=>{
     console.log(req.body);
     User.findByIdAndUpdate(req.user._id,{
-        $push:{rooms:req.body.room}
+        $addToSet:{rooms:req.body.room}
     },(err,docs)=>{
         if(err){
             console.log(err);
@@ -17,5 +17,12 @@ router.put('/addroom',requireLogin,(req,res)=>{
         }
     })
 })
+
+router.get('/getrooms',requireLogin,(req,res)=>{
+    res.status(200).json({
+        rooms:req.user.rooms
+    })
+})
+
 
 module.exports=router
