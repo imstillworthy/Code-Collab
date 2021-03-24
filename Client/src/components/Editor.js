@@ -4,7 +4,6 @@ import { ControlledEditor } from "@monaco-editor/react";
 import { Dropdown, Button, Alert, Badge, Container } from 'react-bootstrap';
 import Nav from "./Navbar";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import queryString from 'query-string';
 import { useParams, useLocation, useHistory } from "react-router-dom";
 import { FacebookShareButton,WhatsappShareButton,LinkedinShareButton } from "react-share";
 import { FacebookIcon,WhatsappIcon,LinkedinIcon} from "react-share";

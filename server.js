@@ -2,14 +2,14 @@
 const express = require('express')
 const http = require('http')
 const socketIO = require('socket.io');
-const mongoose=require('mongoose')
+const mongoose = require('mongoose')
 const port = 5000;
 let rooms = {}
 let language
 let value
 const app = express()
 app.use(express.json());
-var cors=require('cors');
+var cors = require('cors');
 app.use(cors())
 require('./models/Users');
 app.use(require('./routes/auth'));
@@ -24,15 +24,15 @@ const io = socketIO(server, {
 let roomname
 
 const dbURI = "mongodb+srv://Abhinav:abhinav@cluster0.fg6uh.mongodb.net/code-collab?retryWrites=true&w=majority";
-mongoose.connect(dbURI,{useNewUrlParser:true,useUnifiedTopology:true})
-    .then(()=>console.log('MongoDB is connected'))
-    .catch((err)=>{console.log(err)});
+mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('MongoDB is connected'))
+    .catch((err) => { console.log(err) });
 
 io.on("connection", (socket) => {
     // const { id } = socket.client
     console.log(`User connected`, socket.id)
 
-    socket.on('join-room', ({room}) => {
+    socket.on('join-room', ({ room }) => {
         console.log(room);
         roomname = room
         const present = room in rooms
@@ -44,6 +44,7 @@ io.on("connection", (socket) => {
         }
         socket.join(room)
         console.log(rooms)
+        
         language = rooms[roomname].language
         value = rooms[roomname].value
         io.to(socket.id).emit('initial-language', language)
@@ -68,18 +69,19 @@ io.on("connection", (socket) => {
             io.to(room).emit('create-message', data)
         });
 
-        socket.on('disconnect',()=>{
-            console.log('User disconnected',socket.id);
+        socket.on('disconnect', () => {
+            // io.socket.removeAllListeners()
+            console.log('User disconnected', socket.id);
         })
-     })
+    })
 });
 
 
-if(process.env.NODE_ENV=="production"){
+if (process.env.NODE_ENV == "production") {
     app.use(express.static('Client/build'))
     const path = require('path')
-    app.get("*",(req,res)=>{
-        res.sendFile(path.resolve(__dirname,'Client','build','index.html'))
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'Client', 'build', 'index.html'))
     })
 }
 

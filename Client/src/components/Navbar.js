@@ -16,7 +16,6 @@ const Header = (props) => {
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
                     <Link to="/" className="nav-link" > Home</Link>
-                    <Link to="/info" className="nav-link"> Info</Link>
                 </Nav>
                 <Nav class="ml-auto">
                     <Link className="nav-link"><Button variant="contained"
