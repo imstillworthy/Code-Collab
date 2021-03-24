@@ -37,7 +37,7 @@ function Area(props) {
     if (!user) {
       history.push('/login');
     }
-
+    console.log(window.location.href);
     socket.emit('join-room', { room })
 
     console.log(room);
