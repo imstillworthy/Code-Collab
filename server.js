@@ -48,7 +48,7 @@ io.on("connection", (socket) => {
         value = rooms[roomname].value
         io.to(socket.id).emit('initial-language', language)
         io.to(socket.id).emit('initial-value', value)
-        
+        })
         socket.on('language-change', (data) => {
             // console.log(data);
             socket.broadcast.to(data.room).emit('language-change', data.language)
@@ -72,7 +72,6 @@ io.on("connection", (socket) => {
         socket.on('disconnect',()=>{
             console.log('User disconnected',socket.id);
         })
-    })
 });
 
 
