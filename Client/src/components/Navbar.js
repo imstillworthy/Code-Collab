@@ -15,7 +15,7 @@ const Header = (props) => {
             <Navbar.Toggle id="navbar_toggle" aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
-                    <Link to="/" className="nav-link" > Home</Link>
+                    <a href="/" className="nav-link" > Home</a>
                 </Nav>
                 <Nav class="ml-auto">
                     <Link className="nav-link"><Button variant="contained"
